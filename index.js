@@ -175,11 +175,11 @@ class Markdown extends Component {
 
     renderBlockQuote(node, key, extras) {
         const {styles} = this.state;
-        const nodes = this.renderNodes(node.props.children, key, extras);
+        const nodes = this.renderNodes(node.props.children, key, Utils.concatStyles(extras, styles.blockQuoteText));
 
         return(
             <View key={'blockQuote_' + key} style={[styles.block, styles.blockQuote]}>
-                <Text style={styles.blockQuoteText}>{nodes}</Text>
+                { Utils.isTextOnly(nodes) ? <Text style={styles.blockQuoteText}>{nodes}</Text> : {nodes} }
             </View>
         );
     }
@@ -190,7 +190,7 @@ class Markdown extends Component {
 
         if (Utils.isTextOnly(nodes)) {
             return(
-                <Text key={'block_' + key} style={styles.block}>
+                <Text key={'block_' + key} style={[styles.block, styles.blockText]}>
                     {nodes}
                 </Text>
             );
@@ -223,7 +223,7 @@ class Markdown extends Component {
             case 'del': return this.renderText(node, key, Utils.concatStyles(extras, styles.del));
             case 'em': return this.renderText(node, key, Utils.concatStyles(extras, styles.em));
             case 'u': return this.renderText(node, key, Utils.concatStyles(extras, styles.u));
-            case 'blockquote': return this.renderBlockQuote(node, key);
+            case 'blockquote': return this.renderBlockQuote(node, key, extras);
             case undefined: return this.renderText(node, key, extras);
             default: if (this.props.debug) console.log('Node type '+node.type+' is not supported'); return null;
         }
