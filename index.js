@@ -50,7 +50,6 @@ class Markdown extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-
         let newState = {};
 
         if (nextProps.children !== this.props.children) {
@@ -90,7 +89,6 @@ class Markdown extends Component {
     }
 
     renderList(node, key, ordered) {
-
         const {styles} = this.state;
 
         return(
@@ -101,7 +99,6 @@ class Markdown extends Component {
     }
 
     renderListBullet(ordered, index) {
-
         const {styles} = this.state;
 
         if (ordered) {
@@ -116,7 +113,6 @@ class Markdown extends Component {
     }
 
     renderListItem(node, key, index, extras) {
-
         const {styles} = this.state;
 
         let children = this.renderNodes(node.props.children, key, extras);
@@ -143,7 +139,6 @@ class Markdown extends Component {
     }
 
     renderText(node, key, extras) {
-
         const {styles} = this.state;
 
         let style = (extras && extras.style) ? [styles.text].concat(extras.style) : styles.text;
@@ -162,8 +157,8 @@ class Markdown extends Component {
     }
 
     renderLink(node, key) {
-
         const {styles} = this.state;
+
         let extras = Utils.concatStyles(null, styles.link);
         let children = this.renderNodes(node.props.children, key, extras);
 
@@ -223,9 +218,7 @@ class Markdown extends Component {
     }
 
     renderNode(node, key, index, extras) {
-
         const {styles} = this.state;
-
 
         switch(node.type) {
             case 'h1': return this.renderText(node, key, Utils.concatStyles(extras, styles.h1));
