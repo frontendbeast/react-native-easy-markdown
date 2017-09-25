@@ -174,40 +174,26 @@ class Markdown extends Component {
     }
 
     renderBlockQuote(node, key, extras) {
-        extras = extras ? Object.assign(extras, {blockQuote: true}) : {blockQuote: true};
-        return this.renderBlock(node, key, extras);
+        const {styles} = this.state;
+        const nodes = this.renderNodes(node.props.children, key, extras);
+
+        return(
+            <View key={'blockQuote_' + key} style={[styles.block, styles.blockQuote]}>
+                <Text style={styles.blockQuoteText}>{nodes}</Text>
+            </View>
+        );
     }
 
     renderBlock(node, key, extras) {
         const {styles} = this.state;
-
-        let style = [styles.block];
-        let isBlockQuote;
-        if (extras && extras.blockQuote) {
-            isBlockQuote = true;
-
-            /* Ensure that blockQuote style is applied only once, and not for
-             * all nested components as well (unless there is a nested blockQuote)
-             */
-            delete extras.blockQuote;
-        }
         const nodes = this.renderNodes(node.props.children, key, extras);
 
         if (Utils.isTextOnly(nodes)) {
-            if (isBlockQuote) {
-                style.push(styles.blockQuote)
-                return(
-                    <View key={'blockQuote_' + key} style={[styles.block, styles.blockQuote]}>
-                        <Text>{nodes}</Text>
-                    </View>
-                );
-            } else {
-                return(
-                    <Text key={'block_' + key} style={styles.block}>
-                        {nodes}
-                    </Text>
-                );
-            }
+            return(
+                <Text key={'block_' + key} style={styles.block}>
+                    {nodes}
+                </Text>
+            );
         } else {
             return(
                 <View key={'block_' + key} style={styles.block}>
